@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;008Queues_and_Timers/007Task_Priority.ioc&apos; to &apos;008Queues_and_Timers.ioc&apos;" description="Rename resource &apos;007Task_Priority.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="007Task_Priority.ioc" name="008Queues_and_Timers.ioc" stamp="1620951865535" updateReferences="true"/>
+</session>

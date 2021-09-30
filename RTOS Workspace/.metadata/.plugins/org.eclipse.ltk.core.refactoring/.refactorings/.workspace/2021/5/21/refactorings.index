@@ -1,0 +1,5 @@
+1621391104474	Delete resource '009Binary_Semaphore_Tasks/008Queues_and_Timers.launch'
+1621391216102	Delete resource '009Binary_Semaphore_Tasks/Core/Src/task_handler.c'
+1621391220133	Delete resource '009Binary_Semaphore_Tasks/Core/Src/led_effect.c'
+1621391223803	Delete resource '009Binary_Semaphore_Tasks/Core/Src/rtc.c'
+1621391540603	Delete resource '009Binary_Semaphore_Tasks/Debug/008Queues_and_Timers.elf'

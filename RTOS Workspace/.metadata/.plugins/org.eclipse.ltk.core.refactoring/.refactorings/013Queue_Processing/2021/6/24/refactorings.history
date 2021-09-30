@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;013Queue_Processing/012MutexAPI.ioc&apos; to &apos;013Queue_Processing.ioc&apos;" description="Rename resource &apos;012MutexAPI.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="012MutexAPI.ioc" name="013Queue_Processing.ioc" stamp="1623118289324" updateReferences="true"/>
+</session>

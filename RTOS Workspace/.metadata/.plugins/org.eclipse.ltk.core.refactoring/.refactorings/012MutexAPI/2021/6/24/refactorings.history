@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;012MutexAPI/011Mutex_Using_Binary_Semaphore.ioc&apos; to &apos;012MutexAPI.ioc&apos;" description="Rename resource &apos;011Mutex_Using_Binary_Semaphore.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="011Mutex_Using_Binary_Semaphore.ioc" name="012MutexAPI.ioc" stamp="1623113834197" updateReferences="true"/>
+</session>

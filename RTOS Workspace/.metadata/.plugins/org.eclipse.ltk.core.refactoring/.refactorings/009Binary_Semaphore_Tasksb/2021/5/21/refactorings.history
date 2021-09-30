@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;009Binary_Semaphore_Tasks/008Queues_and_Timers.ioc&apos; to &apos;009Binary_Semaphore_Tasks.ioc&apos;" description="Rename resource &apos;008Queues_and_Timers.ioc&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="008Queues_and_Timers.ioc" name="009Binary_Semaphore_Tasks.ioc" stamp="1621391116874" updateReferences="true"/>
+</session>

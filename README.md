@@ -1,0 +1,1 @@
+Udemy FastBit FreeRTOS course projects using STM32 Nucleo-F446RE board. STM32CubeIDE, STM32CubeProgrammer, SystemView software used. Be sure to exclude all examples but the desired one from build.

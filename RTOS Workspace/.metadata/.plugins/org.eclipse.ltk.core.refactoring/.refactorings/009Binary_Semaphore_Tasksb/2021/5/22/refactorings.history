@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;009Binary_Semaphore_Tasks/STM32_FreeRTOS_Bin_Sema_Tasks_converter.log&apos; to &apos;009Binary_Semaphore_Tasks_converter.log&apos;" description="Rename resource &apos;STM32_FreeRTOS_Bin_Sema_Tasks_converter.log&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="STM32_FreeRTOS_Bin_Sema_Tasks_converter.log" name="009Binary_Semaphore_Tasks_converter.log" stamp="1621989840226" updateReferences="true"/>
+</session>
