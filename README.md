@@ -1,4 +1,4 @@
-Udemy (FastBit Embedded Brain Academy) FreeRTOS course project workspace. Various course examples as well as a  written for STM32F446RE MCU with ARM Cortex M4. STM32CubeIDE, STM32CubeProgrammer, Saleae Logic Analyzer, STM Nucleo-F446RE, SystemView software used.
+Udemy (FastBit Embedded Brain Academy) "Mastering RTOS: Hands on FreeRTOS and STM32Fx with Debugging" course project workspace. Various course examples written for FreeRTOS environment on STM32F446RE MCU with ARM Cortex M4. STM32CubeIDE, STM32CubeProgrammer, Saleae Logic Analyzer, STM Nucleo-F446RE, Segger SystemView software used.
 
 **Detailed notes can be found in the top-level directory**
 
