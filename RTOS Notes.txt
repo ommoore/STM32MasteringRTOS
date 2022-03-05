@@ -1,7 +1,7 @@
 Real-Time Computing is equivalent to Predictable computing, not fast computing.
 Real-time deals with guarantees, not with raw speed.
 Having more Processors, more RAM, faster bus interfaces doesnt make a system real-time!!
-A Real Time System deals with Guarantees, not with promises.
+A Real Time System deals with guarantees, not with promises.
 
 A Real time system is one in which the correctness of the computations not only depends upon the logical correctness of the computation, but also
 upon the time at which the result is produced. If the timing constraints are not met, system failure is said to have occurred.
@@ -39,29 +39,36 @@ Embedded OS + Real Time OS = Embedded Real-Time OS (QNX, FreeRTOS, VxWorks)
 RTOS vs GPOS: Task Scheduling
 
 GPOS Task Scheduling:
-GPOS is programmed to handle scheduling in such a way that it manages to achieve high throughput.
-Throughput is defined as the total number of processes that complete their execution per unit time.
-Sometimes execution of a high priority process will get delayed in order to serve 5 or 6 low priority tasks. High throughput is achieved by serving 5 low priority tasks,
-   rather than by serving a single high priority one.
-So, if 5 or 6 low priority Applications are waiting to run, then the GPOS may delay 1 or 2 high priority tasks in order to increase the throughput.
-In a GPOS, the scheduler typically uses a fairness policy to dispatch threads and processes onto the CPU.
-Such a policy enables the high overall throughput required by Desktop and Server applications, but offers no guarantees that high-priority, time critical threads or processes
-   will execute in preference to lower-priority threads.
+. GPOS is programmed to handle scheduling in such a way that it manages to achieve high throughput.
+. Throughput is defined as the total number of processes that complete their execution per unit time.
+  Sometimes execution of a high priority process will get delayed in order to serve 5 or 6 low priority tasks. 
+. High throughput is achieved by serving 5 low priority tasks,
+  rather than by serving a single high priority one.
+. So, if 5 or 6 low priority Applications are waiting to run, then the GPOS may delay 1 or 2 high priority tasks 
+  in order to increase the throughput.
+. In a GPOS, the scheduler typically uses a fairness policy to dispatch threads and processes onto the CPU.
+  Such a policy enables the high overall throughput required by Desktop and Server applications, but offers no 
+  guarantees that high-priority, time critical threads or processes will execute in preference to lower-priority threads.
 
 RTOS Task Scheduling:
-In RTOS, threads execute in the order of their priority. If a high-priority thread becomes ready to run, it will take over the CPU from any lower-priority thread that may be executing.
-Here a high priority thread gets executed over the low priority ones. All 'low priority thread execution' will get paused. A high priority thread execution will get overridden only if
-   a request comes from an even higher priority thread.
+In RTOS, threads execute in the order of their priority. If a high-priority thread becomes ready to run, it will take over 
+the CPU from any lower-priority thread that may be executing. Here a high priority thread gets executed over the low priority 
+ones. All 'low priority thread execution' will get paused. A high priority thread execution will get overridden only if a
+request comes from an even higher priority thread.
 
-RTOS may yield less throughput than GPOS because it always favors the high priority task to execute first, but that does not mean it has poor throughput.
-A quality RTOS will still deliver decent overall throughput but can sacrifice throughput for being deterministic or to achieve time predictability.
+RTOS may yield less throughput than GPOS because it always favors the high priority task to execute first, but that does not 
+mean it has poor throughput. A quality RTOS will still deliver decent overall throughput but can sacrifice throughput for being 
+deterministic or to achieve time predictability.
 
-For RTOS, achieving predictability or time deterministic nature is more important than throughput, but for GPOS achieving higher throughput for user convenience is more important.
+For RTOS, achieving predictability or time deterministic nature is more important than throughput, but for GPOS achieving higher 
+throughput for user convenience is more important.
 ----------------------------------------------------------------------------------
 RTOS vs GPOS: Task Switching Latency
 
 In Computing, Latency means "the time that elapses between a stimulus and the response to it".
-Task switching latency means, that time gap between "a triggering of an event and the time at which the task which takes care of that event is allowed to run on the CPU".
+Task switching latency means, that time gap between "a triggering of an event and the time at which the task which takes care of 
+that event is allowed to run on the CPU".
+
 t1 = Event occured (ex. Crash detection)
 t2 = A task is made to run on CPU (ex. air bag deployment task)
 task switching latency = t2 - t1.
@@ -69,19 +76,27 @@ task switching latency = t2 - t1.
 In GPOS, Task Switching latency may vary significantly.
 In RTOS, Task switching latency remains almost constant because it is always time bounded.
 
-Similarly, Interrupt Latency is the timegap between the IRQ occuring and the ISR executing. Scheduling Latency is the timegap between the ISR finishing and the next task resuming.
-Both the interrupt latency and scheduling latency of the RTOS is as small as possible and time bounded. But in the case of GPOS, due to increase in system load, these parameters may vary significantly.
+Similarly, Interrupt Latency is the timegap between the IRQ occuring and the ISR executing. Scheduling Latency is the timegap between 
+the ISR finishing and the next task resuming. Both the interrupt latency and scheduling latency of the RTOS is as small as possible and 
+time bounded. But in the case of GPOS, due to increase in system load, these parameters may vary significantly.
 ----------------------------------------------------------------------------------
 RTOS vs GPOS: Priority Inversion
 
-Example: You are a low priority vehicle crossing a 4-way intersection and are stopped in the middle of the intersection due to a sudden backup/stoppage of medium priority cars in front of you. Now an ambulance (high priority)
-   vehicle is trying to cross perpindular and now the LP vehicle is blocking it. Despite being the HP Vehicle, it is not able to proceed because the intersection is occupied by the LP vehicle, but the LP 
-   vehicle is not able to proceed due to the traffic jam.
-In this situation, a HP vehicle is waiting for LP vehicle to run and clear the way. This is referred to as "priority inversion", which means a HP vehicle is acting like a LP and LP vehicle is acting like a HP.
+Example: 
+You are a low priority vehicle crossing a 4-way intersection and are stopped in the middle of the intersection due to a sudden 
+backup/stoppage of medium priority cars in front of you. Now an ambulance (high priority) vehicle is trying to cross perpindular and now 
+the LP vehicle is blocking it. Despite being the HP Vehicle, it is not able to proceed because the intersection is occupied by the 
+LP vehicle, but the LP vehicle is not able to proceed due to the traffic jam. In this situation, a HP vehicle is waiting for LP vehicle 
+to run and clear the way. This is referred to as "priority inversion", which means a HP vehicle is acting like a LP and LP vehicle is 
+acting like a HP. 
+
 Let's also say that this intersection area is a "shared resource".
-LP Task has acquired the shared resource now by using the key, but it is not getting a chance to run on the CPU to give up the key. That means the shared resource is locked by LP task 
-   indefinitely which is also required by the HP task to proceed.
-RTOS can create paths on the fly to resolve this issue (re-scheduling) or by temporarily changing the LP as highest priority amongst all other tasks so it can run and release the key, then later restoring its original priority.
+
+LP Task has acquired the shared resource now by using the key, but it is not getting a chance to run on the CPU to give up the key. That 
+means the shared resource is locked by LP task indefinitely which is also required by the HP task to proceed
+
+RTOS can create paths on the fly to resolve this issue (re-scheduling) or by temporarily changing the LP as highest priority amongst all 
+other tasks so it can run and release the key, then later restoring its original priority.
 
 In GPOS, priority inversion effects are in-significant. In RTOS they must be solved.
 
@@ -132,7 +147,8 @@ Time Base Source Selection:
 FreeRTOS uses ARM Cortex Mx processor's internal systick timer as its time base (RTOS ticking)
 STM32 Cube HAL layer also by default uses systick timer as its time base source.
 If you are using both freeRTOS and STM32 HAL layer in your project, there will be a conflict to use a timebase source.
-To resolve this, it is strongly recommended to use STM32 cube HAL layer timebase source other than systick timer (use any timer peripheral of the microcontroller)
+To resolve this, it is strongly recommended to use STM32 cube HAL layer timebase source other than systick timer (use any timer 
+peripheral of the microcontroller)
 ----------------------------------------------------------------------------------
 What is a Task?
 
@@ -151,7 +167,8 @@ __Task Implementation__:
 
 void vATaskFunction(void *pvParameters) {
 /* Variables can be declared just as per a normal function. Each instance of a task created using this function will ahve its own copy
-of a the iVariableExample variable. This would not be true if the variable was declared static - in which case only one copy of the variable would exist
+of a the iVariableExample variable. This would not be true if the variable was declared static - in which case only one copy of the 
+variable would exist
 and this copy would be shared by each created instance of the task. */
 int iVariableExample = 0;
 
@@ -179,8 +196,8 @@ static void task1_handler(void* parameters) {
 	/* Clean up before exiting */
 	vTaskDelete(NULL);
 }
-Each Task carries its own Stack Memory where it saves local variables. Multiple tasks can share the same task function and have separate instances of 
-the local variables defined inside (UNLESS it is declared static, then it is a single global variable common between both tasks).
+Each Task carries its own Stack Memory where it saves local variables. Multiple tasks can share the same task function and have separate instances 
+of the local variables defined inside (UNLESS it is declared static, then it is a single global variable common between both tasks).
 ----------------------------------------------------------------------------------
 FreeRTOS task creation API:
 
@@ -214,9 +231,10 @@ Task Priorities:
 . A priority value comes into picture when there are 2 or more tasks in the system.
 . Priority value helps the schedule to decide which task should run first on the processor.
 . Lower the priority value, lesser the task priority (urgency)
-. In freeRTOS, each task can be assigned a priority value from 0 to (configMAX_PRIORITIES - 1) where configMAX_PRIORITIES may be defined in FreeRTOSConfig.h
-. You must decide configMAX_PRIORITIES as per your application need. Using too many task priority values could lead to RAM's overconsumption. If many
-  tasks are allowed to execute with varying task priorities, it may decrease the system's overall performance.
+. In freeRTOS, each task can be assigned a priority value from 0 to (configMAX_PRIORITIES - 1) where configMAX_PRIORITIES may be defined in 
+  FreeRTOSConfig.h
+. You must decide configMAX_PRIORITIES as per your application need. Using too many task priority values could lead to RAM's overconsumption. 
+  If many tasks are allowed to execute with varying task priorities, it may decrease the system's overall performance.
 . Limit configMAX_PRIORITIES to 5, unless you have a valid reason to increase this.
 ----------------------------------------------------------------------------------
 Scheduling:
@@ -233,7 +251,8 @@ configUSER_PREEMPTION = 0 for co-operative scheduling
 
 Pre-emptive scheduling:
 Pre-emption means replacing a task with another task.
-During pre-emption, the running task is made to give up the processor even if it hasn't finished the work. The scheduler does this to run some other tasks of the application.
+During pre-emption, the running task is made to give up the processor even if it hasn't finished the work. The scheduler does this to run 
+some other tasks of the application.
 The task which gave up the processor simply returns to the ready state.
 
 Round-robin pre-emptive scheduling:
@@ -244,8 +263,8 @@ Context switching between tasks involves pre-emption.
 #define configTICK_RATE_HZ((TickType_t) 1000)
 
 Priority based pre-emptive scheduling:
-Tasks are scheduled to run on the CPU based on their priority. A task with higher priority will be made to run on the CPU forever unless the task gets deleted/blocked/suspended
-or leaves voluntarily to give chance for others.
+Tasks are scheduled to run on the CPU based on their priority. A task with higher priority will be made to run on the CPU forever unless the 
+task gets deleted/blocked/suspended or leaves voluntarily to give chance for others.
 
 Co-operative scheduling:
 A Task cooperates with other tasks by explicitly giving up the processor (Processor yielding)
@@ -267,7 +286,8 @@ A Queue created with xQueueCreate() would have its QCB (Queue Control Block) and
 
 When xTaskCreate() is called, 3 things will happen:
 1) The TCB structure will be created in RAM (heap section) and initialized. pxTopOfStack will be a pointer to the top of the Stack.
-2) Dedicated stack memory will be created for a task and initialized. This stack memory will be tracked using PSP register of the ARM Cortex Mx processor.
+2) Dedicated stack memory will be created for a task and initialized. This stack memory will be tracked using PSP register of the ARM Cortex Mx 
+   processor.
 3) Task will be put under "Ready" list for scheduler to pick. Task Ready list maintained by freeRTOS kernel.
 ----------------------------------------------------------------------------------
 Segger Trace Tool Integration:
@@ -288,9 +308,9 @@ You can analyze other behavior of tasks: like blocking, unblocking, notifying, y
 You can analyze CPU idle time so that you can think of sending CPU to sleep mode.
 Total runtime behavior of the application.
 
-It sheds light on what exactly happened in which order, which interrupt has triggered which task switch, which interrupt and task has called which API function of the underlying RTOS.
-SystemView should be used to verify that the embedded system behaves as expected and can be used to find problems and inefficiencies, such as superfluous and
-spurious interrupts, and unexpected task changes.
+It sheds light on what exactly happened in which order, which interrupt has triggered which task switch, which interrupt and task has called 
+which API function of the underlying RTOS. SystemView should be used to verify that the embedded system behaves as expected and can be used 
+to find problems and inefficiencies, such as superfluous and spurious interrupts, and unexpected task changes.
 
 SystemView toolkit comes in 2 parts:
 1) PC visualization software: SystemView Host software
@@ -299,7 +319,7 @@ SystemView toolkit comes in 2 parts:
 SystemView Visualization modes:
 1) Real time recording (continuous recording)
 With a SEGGER J-Link and its Real Time Transfer (RTT) technology SystemView can continuously record data, and analyze and visualize it in real time.
-Real time mode can be achieved via ST-link instead of J-link. For that, J-link firmware has to be flashed on ST-link circuitry of STM32 boards (more on this later).
+Real time mode can be achieved via ST-link instead of J-link. For that, J-link firmware has to be flashed on ST-link circuitry of STM32 boards.
 2) Single-shot recording
 There is no need for JLINK or STLINK debugger for this mode.
 In single-shot mode, the recording is started manually in the application, which allows recording only specific parts of interest.
@@ -309,16 +329,16 @@ In single-shot mode, the recording is started manually in the application, which
 Target System					Host System(PC)
 ------------ Application ----------------|		SystemViewer
      |		  v		v	 |	             ^
-User events	 RTOS	   Middleware    |                   |
-and printf        |      (e.g. IP stack) |                   |
-     |            v             |        |                   |              
-     |_____> SystemView API <___|        |                   |
-		  v			 |		     v
-	       RTT API			 |	     J-Link RTT DLL API
-    		  |			 |		     ^
+User events	 RTOS	Middleware    		 |           |
+and printf        |      (e.g. IP stack) |           |
+     |            v             |        |           |               
+     |_____> SystemView API <___|        |           |
+		          v			 			 |		     v
+				RTT API			 		 |	   J-Link RTT DLL API
+				  |			 	   		 |			 ^
 ------------------|----------------------|		     |
-Target RAM        v			 |		     v
-	RTT Buffer (Software FIFO)	 |		J-Link DLL
+Target RAM        v			 	  					 v
+	RTT Buffer (Software FIFO)	 		        J-Link DLL
 		  ^                                          ^
 		  |________________> J-Link <________________|
 
@@ -326,17 +346,17 @@ Target RAM        v			 |		     v
 			SINGLE-SHOT RECORDING (note the differences in signal directions)
 Target System					Host System(PC)
 ------------ Application ----------------|		SystemViewer
-     |		  v		v	 |	             ^
-User events	 RTOS	   Middleware    |                   |
-and printf        |      (e.g. IP stack) |                   |
-     |            v             |        |                   |              
-     |_____> SystemView API <___|        |                   |
-		  v			 |		     |
-	       RTT API			 |	 SystemView Data file (*.SVDat)
-    		  |			 |		     ^
+     |		  v		   v	 		     |	         ^
+User events	 RTOS	Middleware           |           |
+and printf        |      (e.g. IP stack) |           |
+     |            v             |        |		     |              
+     |_____> SystemView API <___|        |           |
+		          v		 				 |		     |
+	           RTT API		 			 |  SystemView Data file (*.SVDat)
+    		      |			 			 |		     ^
 ------------------|----------------------|		     |
-Target RAM        v			 |		     |
-	RTT Buffer (Software FIFO)	 | 		  Debugger
+Target RAM        v			 			 		     |
+	RTT Buffer (Software FIFO)	 		  	 	 Debugger
 		  |                                          ^
 		  |______> Any debug probe/interface ________|
 
@@ -354,7 +374,8 @@ You need to patch some of the FreeRTOS files with patch file given
 - Right click ThirdParty (select Team > Apply Patch) and select it through the workspace and hit accept.
 
 Step 3: FreeRTOSConfig.h Settings
-- SEGGER_SYSVIEW_FREERTOS.h header must be included at the end of FreeRTOSConfig.h or above every include of FreeRTOS.h. It defines the trace macros to create SYSTEMVIEW events
+- SEGGER_SYSVIEW_FREERTOS.h header must be included at the end of FreeRTOSConfig.h or above every include of FreeRTOS.h. It defines the 
+  trace macros to create SYSTEMVIEW events
 - In FreeRTOSConfig.h include the below macros
 	#define INCLUDE_xTaskGetIdleTaskHandle 1
 	#define INCLUDE_pxTaskGetStackStart 1
@@ -365,7 +386,8 @@ Step 4: MCU and Project specific settings:
 - Configure some of the application specific information in SEGGER_SYSVIEW_Config_FreeRTOS.c
 
 Step 5: Enable the ARM Cortex M3/M4 Cycle Counter
-- This is required to maintain the time stamp information of application events. SystemView will use the Cycle counter register value to keep the time stamp information of the events.
+- This is required to maintain the time stamp information of application events. SystemView will use the Cycle counter register value to 
+  keep the time stamp information of the events.
 - DWT_CYCCNT register of ARM Cortex M3/M4 processor stores the number of clock cycles that happened after the processor's reset.
 	- To use this register, DWT_CTRL register must be enabled first (DWT_CTRL |= (1 << 0)).
 - By default, this register is disabled.
@@ -391,12 +413,14 @@ Step 8: Collect the recorded data (RTT buffer)
 	- Use that file to load into SystemView HOST software to analyze the events.
 
 Preemptive Scheduling:
-	To preemt a task, the SysTick handler is called which triggers the scheduler. This adds extra execution time between tasks for both SysTick handler and Scheduler.
+	To preemt a task, the SysTick handler is called which triggers the scheduler. This adds extra execution time between tasks for both SysTick 
+	handler and Scheduler.
 Cooperative Scheduling:
-	Cooperative Scheduling involves a task yielding to another. The SysTick timer will still occur, but it will no longer be used to trigger the scheduler, thus freeing up CPU time.
+	Cooperative Scheduling involves a task yielding to another. The SysTick timer will still occur, but it will no longer be used to trigger the 
+	scheduler, thus freeing up CPU time.
 
-In this project, there are two _write() functions that exist. One is located in the /core/src/syscalls.c and is defined with a weak attribute, while the other
-is in /ThirdParty/SEGGER/SEGGER/Syscalls/SEGGER_RTT_Syscalls_GCC.c which overrides the weak function.
+In this project, there are two _write() functions that exist. One is located in the /core/src/syscalls.c and is defined with a weak attribute, 
+while the other is in /ThirdParty/SEGGER/SEGGER/Syscalls/SEGGER_RTT_Syscalls_GCC.c which overrides the weak function.
 
 To view print statements in SEGGER SystemView, you have to use SEGGER's version of printf listed in the documentation : SEGGER_SYSVIEW_PrintfTarget()
 ----------------------------------------------------------------------------------
@@ -415,7 +439,8 @@ Timer Services Task (Timer_svc)
 - The timer daemon task deals with "Software timers"
 - This task is created automatically when the scheduler is started and if configUSE_TIMERS=1 in FreeRTOSConfig.h
 - The RTOS uses this daemon to manage FreeRTOS software timers and nothing else.
-- If you don't use software timers in your FreeRTOS applications, then you need to use this Timer daemon task. For that just make configUSE_TIMERS=0 in FreeRTOSConfig.h
+- If you don't use software timers in your FreeRTOS applications, then you need to use this Timer daemon task. For that just make configUSE_TIMERS=0 
+  in FreeRTOSConfig.h
 - All software timer callback functions execute in the context of the timer daemon task.
 ----------------------------------------------------------------------------------
 	FreeRTOS Scheduler
@@ -424,7 +449,8 @@ FreeRTOS Scheduler Implementation:
 
 Architecture specific codes responsible to achieve scheduling of tasks:
 - All architecture specific codes and configurations are implemented in port.c and portmacro.h
-- If you are using ARM Cortex Mx processor, then you should be able to locate the below interrupt handlers in port.c which are part of the scheduler implementation of freeRTOS.
+- If you are using ARM Cortex Mx processor, then you should be able to locate the below interrupt handlers in port.c which are part of the scheduler 
+  implementation of freeRTOS.
 
 vPortSVCHandler() //Used to launch the very first task. Triggered by SVC instruction
 xPortPendSVHandler() //Used to achieve the context switching between tasks. Triggered by pending the PendSV System exception of ARM
@@ -492,7 +518,8 @@ configSYSTICK_CLOCK_HZ = configCPU_CLK_HZ
 If configCPU_CLK_HZ = 84000000 (i.e. 84MHz)
 and configTICK_RATE_HZ = 1000Hz
 Then, portSYSTICK_NVIC_LOAD_REG = (84000000 / 1000) - 1 = 83999
-The SysTick timer when started, counts down from 83999 to 0. It generates an interrupt when the count value reaches 0 and again reloads the load count value.
+The SysTick timer when started, counts down from 83999 to 0. It generates an interrupt when the count value reaches 0 and again reloads the 
+load count value.
 So, 83999 is the systick load value required to generate an interrupt for every 1ms(1000Hz)
 
 Summary of RTOS Tick ISR (SysTick interrupt triggering the SysTick Handler):
@@ -689,7 +716,8 @@ Project Setup (CubeIDE Project Manager/Code Generation)
 - Go to SYS -> Debug (Disable) Timebase Source (TIM6 instead of SYSTick)
 - NVIC
    - NVIC -> Priority Group: 4 bits for pre-emption priority 0 bits for subpriority
-   - Code Generation -> Generate IRQ Handler: Unselect: System service call via SWI instruciton, pendable request for system service, system tick timer
+   - Code Generation -> Generate IRQ Handler: Unselect: System service call via SWI instruciton, pendable request for system service, 
+     system tick timer
 
 In Core/Src/stm32f4xx_hal_msp.c
 - Call vInitPrioGroupValue(); from HAL_MspInit()
@@ -710,16 +738,16 @@ A "Not-running state" means the task is either suspended, ready or blocked state
 
 				        vTaskSuspend()
     |--------------> Suspended <---------------------------------|
-    |		       |  |					 |
-    |   vTaskSuspend() |  | vTaskResume()			 |
-    |    	       |  |	     Schedule			 |
-    |  		       |  v   ---------------------->            |
+    |		           |  |					 					 |
+    |   vTaskSuspend() |  | vTaskResume()		 			     |
+    |    	           |  |	         Schedule			 		 |
+    |  		           |  v   ---------------------->            |
     |	      -------> Ready <-----------------------  Running --|
-    | Create new task  ^  ^	   Pre-empt/Yield	  |
-    |		       |  |				  |
-    |	         Event |  | xTaskAbortDelay()		  | Blocking API
-    |		       |  |				  |    called
-    |--------------- Blocked <----------------------------|
+    | Create new task  ^  ^	   Pre-empt/Yield	  				 |
+    |		           |  |				  						 |
+    |	         Event |  | xTaskAbortDelay()		  			 | Blocking API
+    |		           |  |				  						 |    called
+    |--------------- Blocked <-----------------------------------|
 
 RUNNING state:
 . When a task is currently executing on the processor, it is said to be in the RUNNING state.
@@ -732,17 +760,22 @@ READY state:
 . In FreeRTOS, whenever a new task is created, it enters the READY state.
 
 BLOCKED state:
-. A task can leave a CPU from the RUNNING state and chooses not to run on the CPU until an internal or external event is met. This state is the BLOCKED state.
+. A task can leave a CPU from the RUNNING state and chooses not to run on the CPU until an internal or external event is met. This state is the 
+  BLOCKED state.
 . When a task is in the BLOCKED state, it wont consume any CPU time.
-. In FreeRTOS, there is an API called vTaskDelay(500). If a task calls this function, then it will enter a BLOCKED state for 500 RTOS ticks, after which is unblocks and enters the READY state (an internal temporal event)
+. In FreeRTOS, there is an API called vTaskDelay(500). If a task calls this function, then it will enter a BLOCKED state for 500 RTOS ticks, 
+  after which is unblocks and enters the READY state (an internal temporal event)
 . A task can also block waiting on an external event, like data arrival to the queue, nonavailability of lock in this case of mutex or semaphore, etc.
-. Task in a BLOCKED state has a timeout period; after the timeout period, it unblocks and enters the ready state even if the event for which it is waiting has not occurred.
+. Task in a BLOCKED state has a timeout period; after the timeout period, it unblocks and enters the ready state even if the event for which it is 
+  waiting has not occurred.
 
 Advantages of blocking:
 1. To implement the blocking Delay - for example, a task may enter the blocked state to wait for 10 milliseconds to pass.
-2. For synchronization - for example, a task may enter the blocked state to wait for data to arrive on a queue. When another task or interrupt fills up the queue, the blocked task unblocks.
+2. For synchronization - for example, a task may enter the blocked state to wait for data to arrive on a queue. When another task or interrupt fills 
+   up the queue, the blocked task unblocks.
 
-FreeRTOS queues, binary sempahores, counting semaphores, recursive semaphores, and mutexes can all be used to implement synchronization, and thus they support blocking of the task.
+FreeRTOS queues, binary sempahores, counting semaphores, recursive semaphores, and mutexes can all be used to implement synchronization, and thus 
+they support blocking of the task.
 
 Blocking Delay APIs:
 vTaskDelay()
@@ -756,9 +789,11 @@ Queues, Semaphores, Mutex are all kernel objects that support APIs which can blo
 
 SUSPENDED state:
 . A task enters the suspended state when it or another task calls vTaskSuspend(task_handle);
-. A suspended task will not enter READY state unless some other running tasks cancel the suspension by calling the API vTaskResume(task_handle_of_suspended_task);
+. A suspended task will not enter READY state unless some other running tasks cancel the suspension by calling the API 
+  vTaskResume(task_handle_of_suspended_task);
 . Unlike blocked state task, a task in the SUSPENDED state doesn't have a timeout period.
-. Task in READY state can enter suspended state directly if some other running task calls vTaskSuspend(task_handle); using task handle of the READY state task.
+. Task in READY state can enter suspended state directly if some other running task calls vTaskSuspend(task_handle); using task 
+  handle of the READY state task.
 ----------------------------------------------------------------------------------
 FreeRTOS Blocking Task delay APIs:
 1. void vTaskDelay(portTickType xTicksToDelay);
@@ -768,7 +803,8 @@ Generate delay of ~10ms
 
 for(int i = 0; i < 5000; i++);  //This code runs on the CPU continuously for 10ms, starving other lower priority tasks. Not a preferred method.
 
-vTaskDelay(10);  //This is a blocking delay API that blocks the task for 10ms. For the next 10ms, other lower priority tasks of the system can run. After 10ms, the task wakes up and enters the READY state.
+vTaskDelay(10);  //This is a blocking delay API that blocks the task for 10ms. For the next 10ms, other lower priority tasks of the system can 
+                 //run. After 10ms, the task wakes up and enters the READY state.
 
 Different types of tasks:
 1) Continuous Task
@@ -815,37 +851,43 @@ FreeRTOS Task Notification
 
 Each RTOS task has a 32-bit notification value which is initialized to zero when the RTOS task is created.
 
-An RTOS task notification is an event sent directly to a task that can unblock the receiving task, and optionally update the receiving task's notification value in a number of different ways.
-For example, a notification may overwrite the receiving task's notification value, or just set one or more bits in the receiving task's notification value.
+An RTOS task notification is an event sent directly to a task that can unblock the receiving task, and optionally update the receiving task's 
+notification value in a number of different ways. For example, a notification may overwrite the receiving task's notification value, or just 
+set one or more bits in the receiving task's notification value.
 
 Wait and Notify APIs:
 xTaskNotifyWait()
-   . If a task calls xTaskNotifyWait(), then it waits with an optional timeout until it receives a notification from some other task or interrupt handler.
+   . If a task calls xTaskNotifyWait(), then it waits with an optional timeout until it receives a notification from some other task or interrupt 
+     handler.
 
    __Prototype__
    BaseType_t xTaskNotifyWait(uint32_t ulBitsToClearOnEntry, uint32_t ulBitsToClearOnExit, uint32_t *pulNotification Value, TickType_t xTicksToWait);
 
    __Parameters__
-   ulBitsToClearOnEntry : Any bits set in ulBitsToClearOnEntry will be cleared in the calling RTOS task's notification value on entry to the xTaskNotifyWait()
-      function (before the task waits for a new notification) provided a notification is not already pending when xTaskNotifyWait() is called. For example,
-      if ulBitsToClearOnEntry is 0x01, then bit 0 of the task's notification value will be cleared on entry to the function. Setting ulBitsToClearOnEntry to 0xffffffff (ULONG_MAX)
-      will clear all the bits in the task's notification value, effectively clearing the value to 0.
+   ulBitsToClearOnEntry : Any bits set in ulBitsToClearOnEntry will be cleared in the calling RTOS task's notification value on entry to the 
+      xTaskNotifyWait() function (before the task waits for a new notification) provided a notification is not already pending when xTaskNotifyWait() 
+	  is called. For example, if ulBitsToClearOnEntry is 0x01, then bit 0 of the task's notification value will be cleared on entry to the function. 
+	  Setting ulBitsToClearOnEntry to 0xffffffff (ULONG_MAX) will clear all the bits in the task's notification value, effectively clearing the value
+	  to 0.
    ulBitsToClearOnExit : Any bits set in ulBitsToClearOnExit will be cleared in the calling RTOS task's notification value before xTaskNotifyWait() 
-      function exits if a notification was received. The bits are cleared after the RTOS task's notification value has been saved in *pulNotificationValue (see the description of
-      pulNotificationValue below). For example, if ulBitsToClearOnExit is 0x03, then bit 0 and bit 1 of the task's notification value will be cleared before the function exits. 
-      Setting ulBitsToClearonExit to 0xffffffff (ULONG_MAX) will clear all the bits in the task's notification value, effectively clearing the value to 0.
-   pulNotificationValue : Used to pass out the RTOS task's notification value. The value copied to *pulNotificationValue is the RTOS task's notification value as it was before any
-      bits were cleared due to the ulBitsToClearOnExit setting. If the notification value is not required, then set pulNotificationValue to NULL.
-   xTicksToWait : The maximum time to wait in the Blocked state for a notification to be received if a notification is not already pending when xTaskNotifyWait() is called.
-      The RTOS task does not consume any CPU time when it is in the Blocked state. The time specified in RTOS tick periods. The pdMS_TO_TICKS() macro can be used to 
-      convert a time specified in milliseconds into a time specified in ticks.
+      function exits if a notification was received. The bits are cleared after the RTOS task's notification value has been saved in 
+	  *pulNotificationValue (see the description of pulNotificationValue below). For example, if ulBitsToClearOnExit is 0x03, then bit 0 and bit 1
+	  of the task's notification value will be cleared before the function exits. Setting ulBitsToClearonExit to 0xffffffff (ULONG_MAX) will clear
+	  all the bits in the task's notification value, effectively clearing the value to 0.
+   pulNotificationValue : Used to pass out the RTOS task's notification value. The value copied to *pulNotificationValue is the RTOS task's 
+      notification value as it was before any bits were cleared due to the ulBitsToClearOnExit setting. If the notification value is not required, 
+	  then set pulNotificationValue to NULL.
+   xTicksToWait : The maximum time to wait in the Blocked state for a notification to be received if a notification is not already pending when 
+      xTaskNotifyWait() is called. The RTOS task does not consume any CPU time when it is in the Blocked state. The time specified in RTOS tick 
+	  periods. The pdMS_TO_TICKS() macro can be used to convert a time specified in milliseconds into a time specified in ticks.
 
    __Return Value__
 	pdTRUE : if a notification was received, or a notification was already pending when xTaskNotifyWait() was called.
         pdFALSE : if the call to xTaskNotifyWait() timed out before a notification was received.
 
 xTaskNotify()
-   - xTaskNotify() is used to send an event directly to and potentially unblock an RTOS task, and optionally update the receiving task's notification value in one of the following ways:
+   - xTaskNotify() is used to send an event directly to and potentially unblock an RTOS task, and optionally update the receiving task's notification 
+     value in one of the following ways:
       . Write a 32-bit number to the notification value
       . Add one (increment) the notification value
       . Set one or more bits in the notification value
@@ -868,10 +910,11 @@ FreeRTOS is Free.
 You can use it in your commercial applications without an issue.
 No need to give any royalties to freeRTOS.
 It's based on GNU GPL license and you should make open your code changes made to FreeRTOS kernel.
-   GNU GPL says if you make any changes to the files of the owner, then you should make those changes open to the customer. So, if you make any changes to the kernel source files
-   provided by the FreeRTOS.org, you should make those changes open.
+   GNU GPL says if you make any changes to the files of the owner, then you should make those changes open to the customer. So, if you make any 
+   changes to the kernel source files provided by the FreeRTOS.org, you should make those changes open.
 You do not need to open source your applications written using FreeRTOS API
-   If you write a nice Robotic FreeRTOS application using FreeRTOS APIs which runs on FreeRTOS kernel, then you do not need to open source that application.
+   If you write a nice Robotic FreeRTOS application using FreeRTOS APIs which runs on FreeRTOS kernel, then you do not need to open source that 
+   application.
 Does it pass any safety standard?
    No it doesnt.
 Is it safe to use FreeRTOS in Safety Critical Applications?
@@ -882,10 +925,11 @@ Does FreeRTOS.org provide any technical support?
    No it does not.
 
 FreeRTOS Commercial Licensing:
- . If you want: Legal Support, Technical support during your Product development, Ensure meeting safety standards, then you have to go for commercial licensing of freeRTOS.org
- SAFERTOS™ is a derivative version of FreeRTOS that has been analyzed, documented and tested to meet the stringent requirements of the IEC 61508 safety standard. This RTOS is audited
-   to verify IEC 61508 SIL 3 conformance.
- OpenRTOS™ is a commercially licensed version of FreeRTOS. The OpenRTOS license does not contain any references to the GPL.
+ . If you want: Legal Support, Technical support during your Product development, Ensure meeting safety standards, then you have to go for commercial 
+   licensing of freeRTOS.org
+ . SAFERTOS™ is a derivative version of FreeRTOS that has been analyzed, documented and tested to meet the stringent requirements of the IEC 61508 
+   safety standard. This RTOS is audited to verify IEC 61508 SIL 3 conformance.
+ . OpenRTOS™ is a commercially licensed version of FreeRTOS. The OpenRTOS license does not contain any references to the GPL.
 
 
 Very important Links:
@@ -930,8 +974,8 @@ ___________________________________________________________
 |__________________|____________________|__________________|
 Low							  High
 
-Before executing any instructions of the application, the startup code has to properly initialize the SP (stack pointer) to the starting address of the stack.
-SP (Stack pointer of MCU) is usually initialized to highest memory address of the RAM (beginning of Stack -- Full Descending Stack).
+Before executing any instructions of the application, the startup code has to properly initialize the SP (stack pointer) to the starting address of 
+the stack. SP (Stack pointer of MCU) is usually initialized to highest memory address of the RAM (beginning of Stack -- Full Descending Stack).
 
 Heap is used for dynamic allocation of memory to application during runtime.
 malloc()  just returns the memory pointer from Heap.
@@ -987,7 +1031,8 @@ How to manage the heap memory?
 . Stack is managed by SP and instructions like PUSH/POP.
 . How the heap is managed is really up to the runtime environment. C uses malloc & free and C++ uses new.
 
-For embedded systems, malloc and free APIs are not suitable because they eat up large code space, lack of deterministic nature and fragmented overtime as blocks of memory are allocated.
+For embedded systems, malloc and free APIs are not suitable because they eat up large code space, lack of deterministic nature and fragmented 
+overtime as blocks of memory are allocated.
 
 FreeRTOS Stack and Heap Management:
 
@@ -1006,7 +1051,8 @@ What decides the starting address and size of the heap.
 By default, the FreeRTOS heap is declared by FreeRTOS kernel.
 Setting configAPPLICATION_ALLOCATED_HEAP to 1 allows the heap to instead be declared by the application.
 
-When you create a task dynamically, TCB and associated stack (TCB-n + Stack-n) will be created in the heap space of the RAM (xTaskCreate()). Heap grows in direction of higher memory.
+When you create a task dynamically, TCB and associated stack (TCB-n + Stack-n) will be created in the heap space of the RAM (xTaskCreate()).
+Heap grows in direction of higher memory.
 When xSemaphoreCreateBinary() is called, a Semaphore Control Block (SCB) will be similarly created in heap.
 When xQueueCreate() is called, a Queue Control Block and Item List is created in heap(QCB + ItemList).
 
@@ -1029,10 +1075,11 @@ FreeRTOS Task Deletion
 Deleting a Task:
 void vTaskDelete(xTaskHandle pxTaskToDelete);
 
-Remember that when you use vTaskDelete() it wont deallocate the memory occupied by the task. It just marks the Task as deleted. Later when the idle task runs,
-it will de-allocate the memory for all the tasks which are marked as deleted.
+Remember that when you use vTaskDelete() it wont deallocate the memory occupied by the task. It just marks the Task as deleted. Later when the idle 
+task runs, it will de-allocate the memory for all the tasks which are marked as deleted.
 
-You rarely have to delete a task, because they are typically constantly running/suspended/blocked in an RTOS application. But there are scenarios where it may be good to do.
+You rarely have to delete a task, because they are typically constantly running/suspended/blocked in an RTOS application. But there are scenarios 
+where it may be good to do.
 
 Exercise: 005LED_Task_Notify
 Task to task notification using direct notification APIs of FreeRTOS.
@@ -1056,7 +1103,8 @@ Scenario: Shared Data Access:
 6. 2nd button press, button task sends notification newly updated 'next_task_handle'
 
 vTaskSuspendAll(void);  //task.h
-//suspends the scheduler. prevents context switch from occurring but leaves interrupts enabled. If an interrupt requests a context switch while the scheduler is suspended, 
+//suspends the scheduler. prevents context switch from occurring but leaves interrupts enabled. If an interrupt requests a context switch while the 
+scheduler is suspended, 
 //then the request is held pending and is performed only when the scheduler is resumed (unsuspended)
 
 BaseType_t xTaskResumeAll(void);
@@ -1074,7 +1122,8 @@ Note: Used task deletions at first (after button presses cycled through deleting
 ARM Cortex M Interrupt Priority and FreeRTOS Task Priority
 
 FreeRTOS Task Priority vs Hardware Priority (Processor Interrupt/Exception Priority):
-. Hardware priority is the priority values assigned to various interrupts and system exceptions of the processor (peripherals external to processor: ADC, Timer, Eth, UART, SPI, I2C, GPIO etc + 15 Exceptions)
+. Hardware priority is the priority values assigned to various interrupts and system exceptions of the processor (peripherals external to processor: 
+  ADC, Timer, Eth, UART, SPI, I2C, GPIO etc + 15 Exceptions)
 
 User tasks run in thread mode of the processor (process context)
 Interrupt handlers run in handler mode of the processor (interrupt context)
@@ -1094,9 +1143,11 @@ configKERNEL_INTERRUPT_PRIORITY
 configMAX_SYSCALL_INTERRUPT_PRIORITY
 	-In the newer version of FreeRTOS port.c file, its name is changed to configMAX_API_CALL_INTERRUPT_PRIORITY
 	   This is a threshold priority limit for those interrupts which use freeRTOS APIs which end with "FromISR"
-	   Interrupts which use freeRTOS APIs ending with "FromISR" should not use priority greater than this value. (Greater priority = less in numeric value)
+	   Interrupts which use freeRTOS APIs ending with "FromISR" should not use priority greater than this value. (Greater priority = less in numeric 
+	   value)
 
-Interrupts that do not call API functions can execute at priorities above configMAX_SYSCALL_INTERRUPT_PRIORITY and therefore never be delayed by the RTOS kernel execution
+Interrupts that do not call API functions can execute at priorities above configMAX_SYSCALL_INTERRUPT_PRIORITY and therefore never be delayed by the 
+RTOS kernel execution
 configMAX_SYSCALL_INTERRUPT_PRIORITY = 4; configKERNEL_INTERRUPT_PRIORITY = 0;
 
 Priority[0:7]
@@ -1104,7 +1155,8 @@ Priority[0:7]
   . ISR's that call API functions ending in "FromISR" can use these interrupt priorities, and will nest (0-4)
   . Interrupts running at these priorities will never be delayed from executing because of anything the FreeRTOS.org kernel is doing. (5-7)
 
-The interrupt service routine that uses an RTOS API function must have its priority manually set to a value that is numerically equal to or greater than configMAX_SYSCALL_INTERRUPT_PRIORITY.
+The interrupt service routine that uses an RTOS API function must have its priority manually set to a value that is numerically equal to or greater 
+than configMAX_SYSCALL_INTERRUPT_PRIORITY.
 Remember that in ARM, greater priority value means lesser urgency.
 
 Available Priority Values of ISR's based on configMAX_SYSCALL_INTERRUPT_PRIORITY = 0x50 :
@@ -1112,14 +1164,19 @@ ISRs which do not call FreeRTOS API ending in "FromISR" : (highest prio) 0x00, 0
 ISRS which call FreeRTOS API ending in "FromISR" : 0x50, 0x60, 0x70, 0x80, 0x90, 0xA0, 0xB0, 0xC0, 0xD0, 0xE0, 0xF0 (lowest prio)
 
 In Conclusion:
-FreeRTOS APIs that end in "FromISR" are interrupt safe, but even these APIs should not be called from ISRs that have priority (urgency) above the priority defined by configMAX_SYSCALL_INTERRUPT_PRIORITY.
-Therefore, any interrupt service routine that uses an RTOS API function must have its priority value manually set to a value that is numerically equal to or greater than configMAX_SYSCALL_INTERRUPT_PRIORITY setting.
-Cortex-M interrupts default to having a priority value of zero. Zero is the highest possible priority value. Therefore, never leave the priority of an interrupt that uses the interrupt safe RTOS API at its default value.
+FreeRTOS APIs that end in "FromISR" are interrupt safe, but even these APIs should not be called from ISRs that have priority (urgency) above the 
+priority defined by configMAX_SYSCALL_INTERRUPT_PRIORITY.
+Therefore, any interrupt service routine that uses an RTOS API function must have its priority value manually set to a value that is numerically 
+equal to or greater than configMAX_SYSCALL_INTERRUPT_PRIORITY setting.
+Cortex-M interrupts default to having a priority value of zero. Zero is the highest possible priority value. Therefore, never leave the priority of 
+an interrupt that uses the interrupt safe RTOS API at its default value.
 There are 2 configuration items:
   configKERNEL_INTERRUPT_PRIORITY (0xF0)
-	The kernel interrupt priority config item actually decides the priority level for the kernel related interrupts like systick, pendsv and svc, and it is set to lowest interrupt priority possible.
+	The kernel interrupt priority config item actually decides the priority level for the kernel related interrupts like systick, pendsv and svc, 
+	and it is set to lowest interrupt priority possible.
   configMAX_SYSCALL_INTERRUPT_PRIORITY (0x50)
-	The max syscall interrupt priority config item actually decides the maximum priority level, that is allowed to use for those interrupts which use FreeRTOS APIs ending with "FromISR" in their interrupt service routines.
+	The max syscall interrupt priority config item actually decides the maximum priority level, that is allowed to use for those interrupts which
+	use FreeRTOS APIs ending with "FromISR" in their interrupt service routines.
 
 ----------------------------------------------------------------------------------
 Exercise: 006LED_btn_isr
@@ -1135,10 +1192,12 @@ FreeRTOS "FromISR" APIs
 . FreeRTOS provides separate APIs for use from interrupt handlers. These APIs end with "FromISR"
 . If a FreeRTOS API doesn't end with "FromISR" then it should not be used in interrupt context (Inside of an ISR)
 
-Since configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY == 5, the EXTI line[15:10] interrupts setting in STM32Cube Mx NVIC settings needs to be set to 5 or higher (I chose 6). The User Button (PC13) would be using EXTI line 13 for interrupts.
+Since configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY == 5, the EXTI line[15:10] interrupts setting in STM32Cube Mx NVIC settings needs to be set to 
+5 or higher (I chose 6). The User Button (PC13) would be using EXTI line 13 for interrupts.
 	(Higher the priority, the lower the urgency)
 
-portDISABLE_INTERRUPTS() disables all the interrupts with priority values 0x50 to 0xF0 (5 to 15) (above threshold) because configMAX_SYSCALL_INTERRUPT_PRIORITY = 0x50; Interrupts with priority lower than 0x50 will still be allowed.
+portDISABLE_INTERRUPTS() disables all the interrupts with priority values 0x50 to 0xF0 (5 to 15) (above threshold) because 
+configMAX_SYSCALL_INTERRUPT_PRIORITY = 0x50; Interrupts with priority lower than 0x50 will still be allowed.
 
 ----------------------------------------------------------------------------------
 Exercise: 007
@@ -1187,16 +1246,18 @@ FreeRTOS "FromISR" APIs
 
 Why are there separate "FromISR" APIs?
 1. It makes APIs implementation simpler :
-   When called from task context, many RTOS APIs can put the calling task to a blocked state, but the same cannot happen when called from interrupt handlers
-   because you cannot put the interrupt handler or interrupt context code to blocked staate. The blocked state is for tasks, not for interrupt handlers.
-   So, now the API must determine from which context it was being called, interrupt or task context, and decide accordingly.
-   This approach increases code overhead, and some architecture doesn't support determining the context. To overcome this problem, freeRTOS gives separate APIs
-   to be called from interrupt handlers and prohibits using APIs which doesn't end with "FromISR" inside an interrupt handler.
+   When called from task context, many RTOS APIs can put the calling task to a blocked state, but the same cannot happen when called from 
+   interrupt handlers because you cannot put the interrupt handler or interrupt context code to blocked staate. The blocked state is for tasks, 
+   not for interrupt handlers. So, now the API must determine from which context it was being called, interrupt or task context, and decide 
+   accordingly. This approach increases code overhead, and some architecture doesn't support determining the context. To overcome this problem, 
+   freeRTOS gives separate APIs to be called from interrupt handlers and prohibits using APIs which doesn't end with "FromISR" inside an interrupt 
+   handler.
 
 2. Some API function parameters would become redundant and confusing
 
 Disadvantage of using separate APIs
-1. Application writer must redesign the logic when there is a need to call a third-party function from an interrupt handler that uses FreeRTOS API that doesn't end with 'FromISR'
+1. Application writer must redesign the logic when there is a need to call a third-party function from an interrupt handler that uses FreeRTOS API 
+that doesn't end with 'FromISR'
 
 **Can't do this, because you're calling xQueueSend (non-'FromISR' FreeRTOS API) from an interrupt handler**
 						//Third party function
@@ -1229,7 +1290,8 @@ Idle Task Hook Function:
 . Idle task hook function implements a callback from idle task to your application.
 . You have to enable the idle task hook function feature by setting this config item configUSE_IDLE_HOOK to 1 within FreeRTOSConfig.h
 . Then implement void vApplicationIdleHook(void); in your application.
-. That's it, whenever idle task is allowed to run, your hook function will get called, where you can do useful stuff like sending the MCU to low power mode.
+. That's it, whenever idle task is allowed to run, your hook function will get called, where you can do useful stuff like sending the MCU to 
+  low power mode.
 void vApplicationIdleHook(void) {} //main.c
 
 RTOS Tick Hook Function:
@@ -1250,13 +1312,16 @@ void vApplciationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName) 
 Table 23. Low-power mode summary (Power modes of a MCU are discussed in MCU2 course)
 
 Putting in sleep mode with WFI entry (wait for interrupt)
-WFI makes the processor suspend execution (clock is stopped) until one of the following events takes place: IRQ interrupt, FIQ interrupt, Debug entry request made to processor.
+WFI makes the processor suspend execution (clock is stopped) until one of the following events takes place: IRQ interrupt, FIQ interrupt, Debug 
+entry request made to processor.
 
-This Idle Task Hook function changed the current consumption of the project from 50ma to 18-20ma by utilizing sleep mode for the processor during downtime.
+This Idle Task Hook function changed the current consumption of the project from 50ma to 18-20ma by utilizing sleep mode for the processor during 
+downtime.
 
 Default priority of idle task is 0, and will only run if all other tasks are blocked.
-If Task 1's priority is 0, and idle task's Priority is also 0, then will both run alternately ? Yes, they will alternate time slices due to equal priority.
-The job of the idle task is to cleanup memory of those kernel objects which got deleted, and to keep the processor busy when there are no tasks to run on the CPU.
+If Task 1's priority is 0, and idle task's Priority is also 0, then will both run alternately ? Yes, they will alternate time slices due to equal 
+priority. The job of the idle task is to cleanup memory of those kernel objects which got deleted, and to keep the processor busy when there are 
+no tasks to run on the CPU.
 ----------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------
 Free RTOS Queue Management
@@ -1264,7 +1329,8 @@ Free RTOS Queue Management
 Queues and its features:
 . A queue is a data structure which can hold a finite number of fixed size data items.
   . It has a head (item-0) and a tail (item-n).
-  . To Enqueue (write) is to place an item at the tail, while Dequeue (read) takes off an item from the head. (Data is written to end of queue and read from the front)
+  . To Enqueue (write) is to place an item at the tail, while Dequeue (read) takes off an item from the head. (Data is written to end of queue and 
+    read from the front)
   . The maximum items a queue can hold is its length. Total Size = (n_items * sizeof(item))
   . FIFO access
 
@@ -1301,7 +1367,8 @@ void vATask(void *pvParameters) {
 		//Insufficient memory in heap
 	}
 	
-	/* Create a queue capable of containing 10 pointers to AMessage structures. These are to be queued by pointers as they are relatively large structures */
+	/* Create a queue capable of containing 10 pointers to AMessage structures. These are to be queued by pointers as they are relatively large 
+	structures */
 	xQueue2 = xQueueCreate(10, sizeof(struct AMessage *));
 	//structure would be too large to pass on its own ( (21 * 10) = 210 Bytes!).
 	//instead pass pointers to the structures (10*4 = 40Bytes)
@@ -1316,9 +1383,10 @@ void vATask(void *pvParameters) {
 Total_Size_Queue1 = QCB + (10 * 4)Bytes
 
 Sending Data to the Queue:
-
-portBASE_TYPE xQueueSendToFront(xQueueHandle xQueue, const void* pvItemToQueue, portTickType xTicksToWait); //send data to the front (head) of the queue
-portBASE_TYPE xQueueSendToBack(xQueueHandle xQueue, const void* pvItemToQueue, portTickType xTicksToWait); //send data to the back (tail) of the queue
+//send data to the front (head) of the queue
+portBASE_TYPE xQueueSendToFront(xQueueHandle xQueue, const void* pvItemToQueue, portTickType xTicksToWait); 
+//send data to the back (tail) of the queue
+portBASE_TYPE xQueueSendToBack(xQueueHandle xQueue, const void* pvItemToQueue, portTickType xTicksToWait); 
   xQueue: Handle of created queue
   pvItemToQueue: the address to the data item which you want to send to the queue
   xTicksToWait: number of ticks the task who calls this api must wait for if the queue is full (or port_MAX_DELAY)
@@ -1360,15 +1428,15 @@ RTC Task
 	Configure Time		----> 0
 	Configure Data		----> 1
 	Enable reporting	----> 2
-	Exit			----> 4
+	Exit			    ----> 4
 	Enter your choice here : 
 
 [Menu Task] ---->  [Menu] ---Enqueue--> [Print Queue] ---Dequeue--> [Print Task] ----> [UART] ---> To user
 
 
-From user ---> [UART] ---> [UART ISR]  ---Enqueue---> [Input data Queue] ---Dequeue---> [Command handling Task] ----> [Format the data into command] ---> [Notify relevant tasks]
-			       |								^
-			       |________________________Notification____________________________|
+From user ---> [UART] ---> [UART ISR]  ---Enqueue---> [Input data Queue] ---Dequeue---> [Command handling Task] ---> [Format the data into command] 
+								|															     ^                      |
+								|________________________Notification____________________________|						---> [Notify relevant tasks]
 
 
 In main, create 5 tasks of same priority and 2 queues.
@@ -1426,10 +1494,10 @@ void led_task(void *param) {
 	uint32_t cmd_addr;
 	command_t *cmd;
 	const char* msg_led = 	"========================\n"
-				"|	LED Effect	|\n"
-				"========================\n"
-				"(none,e1,e2,e3,e4)	 \n"
-				"Enter your choice here: \n"
+							"|	LED Effect	|\n"
+							"========================\n"
+							"(none,e1,e2,e3,e4)	 \n"
+							"Enter your choice here: \n"
 	while(1) {
 		/* TODO: Wait for notification (Notify wait)a */
 		/* TODO: Print LED menu */
@@ -1521,15 +1589,18 @@ Reading date and time info
 
 // https://www.educative.io/edpresso/resolving-the-a-label-can-only-be-part-of-a-statement-error 
 //Resolving the "a label can only be part of a statement and a declaration is not a statement" error
-//The “a label can only be part of a statement and a declaration is not a statement” error occurs in C when it encounters a declaration immediately after a label.
+//The “a label can only be part of a statement and a declaration is not a statement” error occurs in C when it encounters a declaration 
+//immediately after a label.
 //
 //The C language standard only allows statements​ to follow a label. The language does not group declarations in the same category as statements.
 //The error can also occur when using switch statements in C, as ​the language treats cases similar to labels. Consider the following error scenario:
-//The solution is the same as before; a​ semi-colon needs to be added after the case 'a' statement on line 77. Alternatively, the entire case can be enclosed in curly braces to circumvent the error. 
+//The solution is the same as before; a​ semi-colon needs to be added after the case 'a' statement on line 77. Alternatively, the entire case can be 
+//enclosed in curly braces to circumvent the error. 
 //The following code snippet implements both ways of fixing this error:
 
 
-Q. Let's say a queue is full, and a task1 of priority 5 was blocked on a queue while its attempt to write on that queue, now lets say task2 of priority 3 removes a data item from that queue. 
+Q. Let's say a queue is full, and a task1 of priority 5 was blocked on a queue while its attempt to write on that queue, now lets say task2 of 
+   priority 3 removes a data item from that queue. 
 Do you think the moment task 2 removes a data item, it will be preempted by task 1 ?
 
 A. Yes, Task 2 will be preempted by Task-1 the moment it removes the data item from the queue.
@@ -1557,8 +1628,8 @@ Semaphore for Synchronization, Mutual Exclusion and Interrupt Management
 
 Synchronization and Mutual Exclusion in the Real World
 
-A semaphore is a kernel object or you can say kernel service, that one or more threads of execution can acquire or release for the purpose of synchronization or mutual exclusion.
-Before understanding semaphores, lets first explore what synchronization and mutual exclusion are.
+A semaphore is a kernel object or you can say kernel service, that one or more threads of execution can acquire or release for the purpose of 
+synchronization or mutual exclusion. Before understanding semaphores, lets first explore what synchronization and mutual exclusion are.
 
 Synchronization in the real world:
 Meeting @ 11am between Manager and Employee.
@@ -1611,11 +1682,13 @@ Semaphores can also be used to implement mutual exclusion but it will introduce 
 Creating a Semaphore:
 Semaphores are kernel objects, or you can say kernel services which you can use to achieve the synchronization and mutual exclusion in your project.
 
-When a semaphore is created, the kernel assigns an associated Semaphore Control Block (SCB) that contains Semaphore ID or Name, Value (binary or a count -- how many semaphore tokens are available) and a Task-Waiting-List.
-Semaphores are basically "keys" or "tokens" that tasks can acquire in order to carry out the intended operation.
+When a semaphore is created, the kernel assigns an associated Semaphore Control Block (SCB) that contains Semaphore ID or Name, Value (binary or a 
+count -- how many semaphore tokens are available) and a Task-Waiting-List. Semaphores are basically "keys" or "tokens" that tasks can acquire in 
+order to carry out the intended operation.
 
 A single semaphore can be acquired only a finite number of times by various tasks depending upon how the semaphore is initialized.
-If value = 4, then 4 semaphore keys are currently available. If a task attempts to acquire the key for the 5th time, it will be blocked and moved to the task waiting list. The value decrements when a key is acquired, and increments when its given back.
+If value = 4, then 4 semaphore keys are currently available. If a task attempts to acquire the key for the 5th time, it will be blocked and moved 
+to the task waiting list. The value decrements when a key is acquired, and increments when its given back.
 
 The kernel can provide two types of semaphores, Binary Semaphores and Counting Semaphores.
 
@@ -1724,14 +1797,17 @@ Once the interrupt handler gives the semaphore back, the helper task will get un
 2. Interrupt occurs (which gives the semaphore making it "available")
 3. Task unblocked and tries to take the semaphore
 4. Task took the semaphore (making the semaphore "unavailable")
-In the helper task, the Task continuously tries to take the semaphore which is unavailable until the interrupt handler signals with xSemaphoreGiveFromISR to unblock the Task.
+In the helper task, the Task continuously tries to take the semaphore which is unavailable until the interrupt handler signals with 
+   xSemaphoreGiveFromISR to unblock the Task.
 
 
 Events Latching
 A binary semaphore can only have a 'count of 1' so the maximum amount of events it can latch is also 1.
-If there are many interrupts coming at high frequency, then you cannot latch more than 1 event with a binary semaphore, hence why counting semaphores are used.
+If there are many interrupts coming at high frequency, then you cannot latch more than 1 event with a binary semaphore, hence why counting 
+semaphores are used.
 1. When the interrupts/events happen relatively slow, the binary semaphore can latch at most only one event.
-2. If multiple interrupts/events trigger back to back, then the binary semaphore will not be able to latch all the events. So some events will be lost.
+2. If multiple interrupts/events trigger back to back, then the binary semaphore will not be able to latch all the events. So some events 
+   will be lost.
 3. How do you solve this issue? "Counting Semaphores"
 
 
@@ -1742,9 +1818,9 @@ An interrupt occurs, which gives the semaphore to the task, unblocking it.
 When the task is unblocked, it tries to take the semaphore which is now available.
 When the task successfully takes the semaphore, the semaphore becomes unavailable once more.
 
-Now, another 2 interrupts occur while the task is still processing the first event. The ISR 'Gives' the semaphore each time -- effectively latching both events so neither event is lost.
-When processing of the first event completes, the task calls xSemaphoreTake() again. Again, two semaphores are already 'available', one is taken without the task ever entering the Blocked State,
-leaving one more 'latched' semaphore available.
+Now, another 2 interrupts occur while the task is still processing the first event. The ISR 'Gives' the semaphore each time -- effectively 
+latching both events so neither event is lost. When processing of the first event completes, the task calls xSemaphoreTake() again. Again, 
+two semaphores are already 'available', one is taken without the task ever entering the Blocked State, leaving one more 'latched' semaphore available.
 
 
 Exercise: 010Counting_Semaphore_Tasks
@@ -1760,8 +1836,10 @@ Use the counting semaphore to latch events from the interrupts
 ----------------------------------------------------------------------------------
 Mutual Exclusion using Binary Semaphores
 
-Access to a resource that is shared either between tasks or between tasks and interrupts needs to be serialized using some techniques to ensure data consistency.
-Usually a common code block which deals with a global array, variable, or memory address, has the possibility to get corrupted, when many tasks or interrupts are racing around it.
+Access to a resource that is shared either between tasks or between tasks and interrupts needs to be serialized using some techniques to ensure 
+data consistency.
+Usually a common code block which deals with a global array, variable, or memory address, has the possibility to get corrupted, when many tasks 
+or interrupts are racing around it.
 
 #define UART_DR  *((unsigned long *) (0x40000000)
 /* This is a common function to write to UART DR */
@@ -1780,37 +1858,44 @@ There are two ways to implement mutual exclusion in FreeRTOS:
 1) Using Binary semaphore APIs
 2) Using Mutex APIs
 
-We have already explored about binary semaphores being used for synchronization, but the same binary semaphore can be used to avoid the race condition, 
-or in other words, achieve mutual exclusion.
+We have already explored about binary semaphores being used for synchronization, but the same binary semaphore can be used to avoid the race 
+condition, or in other words, achieve mutual exclusion.
 
 If a task tries to take a key when the semaphore is unavailable (bin_sema == 0) then it will be blocked and put in a waiting list.
 The moment (bin_sema == 1) after sema_give_key() is called, the task will be unblocked and continue where it left off.
 
 
-******* The main issue with using a binary semaphore for mutual exclusion is that it gives a chance for priority inversion to occur! A higher priority task can be 
-blocked due to non-availability of the semaphore and will be waiting on the lower priority task to release the semaphore. It is unwise and bad design to have a higher priority task 
-to be dependent on a lower priority task. Additionally, if there is a "medium priority" task that appears and occupies the processor, unallowing the lower priority task to run, 
-then the lower priority task would be delayed indefinitely while leaving the highest priority task blocked forever. This is exactly the scenario of priority inversion. As an application
-contains more tasks with varying priority levels, it needs to be tested against priority inversion. What is the best way to solve this issue? Use MUTEXes instead of binary semaphores
-for mutual exclusion dealing with many different priority levels. MUTEX has built-in intelligence to minimize the priority inversion effect. A MUTEX is another kernel service or object
-that is carefully designed to take care of this priority inversion problem.*******
+******* The main issue with using a binary semaphore for mutual exclusion is that it gives a chance for priority inversion to occur! A higher 
+priority task can be blocked due to non-availability of the semaphore and will be waiting on the lower priority task to release the semaphore. 
+It is unwise and bad design to have a higher priority task to be dependent on a lower priority task. Additionally, if there is a "medium priority" 
+task that appears and occupies the processor, unallowing the lower priority task to run, then the lower priority task would be delayed indefinitely 
+while leaving the highest priority task blocked forever. This is exactly the scenario of priority inversion. As an application contains more tasks 
+with varying priority levels, it needs to be tested against priority inversion. What is the best way to solve this issue? Use MUTEXes instead of
+binary semaphores for mutual exclusion dealing with many different priority levels. MUTEX has built-in intelligence to minimize the priority 
+inversion effect. A MUTEX is another kernel service or object that is carefully designed to take care of this priority inversion problem.
+*******
 ----------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------
 Advantages of Mutex over Binary Semaphore:
 
 Priority Inheritance
-	- Mutexes and binary semaphores are very similar -- the only major difference is mutexes automatically provide a basic 'priority inheritance' mechanism.
-	- Priority inheritance is a technique by which a mutex minimizes the negative effects of priority inversion. A mutex is not able to fix the priority inversion problem completely,
+	- Mutexes and binary semaphores are very similar -- the only major difference is mutexes automatically provide a basic 'priority inheritance' 
+	  mechanism.
+	- Priority inheritance is a technique by which a mutex minimizes the negative effects of priority inversion. A mutex is not able to fix the 
+	  priority inversion problem completely,
 	  but it lessens its impact.
 	- Most of the RTOS including FreeRTOS mutex implementation implements priority inheritance feature.
 	- Since mutex has all these features to avoid priority inversion, the memory consumed by mutex service may be higher than the binary semaphore..
 
 Scenario with LP, MP, and HP tasks:
 1. The LP task takes a mutex before being preempted by the HP task.
-2. The HP task attempts to take the Mutex but can't because it is still being held by the LP task. The HP task enters the blocked state to wait for the semaphore to become available.
-3. The LP task is preventing the HP task from executing so it inherits the priority of the HP task. The LP task now cannot be preempted by the MP task, so the amount of time that 
+2. The HP task attempts to take the Mutex but can't because it is still being held by the LP task. The HP task enters the blocked state to wait for 
+   the semaphore to become available.
+3. The LP task is preventing the HP task from executing so it inherits the priority of the HP task. The LP task now cannot be preempted by the MP 
+   task, so the amount of time that 
    priority inversion exists is minimized. When the LP task gives the mutex back, it returns its original priority!
-4. The LP task returning the mutex causes the HP task to exit the blocked state as the mutex holder. When the HP task has finished with the mutex it gives it back. The MP task only 
+4. The LP task returning the mutex causes the HP task to exit the blocked state as the mutex holder. When the HP task has finished with the mutex 
+   it gives it back. The MP task only 
    executes when the HP task returns to the blocked state so the MP task never holds up the HP task.
 
 Code Exercise - 16: Mutex Example:
@@ -1818,9 +1903,10 @@ Code Exercise - 16: Mutex Example:
 Both tasks will print some characters to the STDOUT/UART when they get a chance to run.
 Task 2 prio > Task 1 prio
 Task 2 runs first and prints some data to the STDOUT then it blocks for a "random" number of ticks.
-When Task2 blocks, Task1 takes over the CPU and start running and tries to output its string of data on to the stdout, but here is the catch. Since Task2 is blocked for random number 
-of ticks, we don't know when it will wake up. If it wakes up, then it will definitely preempt the Task1 which may be in the middle of printing string. so you will see a distorted output, 
-if you don't use mutex to protect the stdout.
+When Task2 blocks, Task1 takes over the CPU and start running and tries to output its string of data on to the stdout, but here is the catch. Since 
+Task2 is blocked for random number 
+of ticks, we don't know when it will wake up. If it wakes up, then it will definitely preempt the Task1 which may be in the middle of printing 
+string. so you will see a distorted output, if you don't use mutex to protect the stdout.
 
 
 Ways to protect the Critical Section:
@@ -1856,5 +1942,7 @@ If Task-1 takes the semaphore, then any random Task of that application can 'giv
 Yes. As long as the semaphore handle is accessible(global), any one can 'give' or 'take' using that handle.
 
 Question 7:
-Lets say Task-1 locks the critical section by taking the semaphore , do you think a random Task-2 can able to access that critical section without taking the semaphore ?
-Yes. Yes of course, no one can stop Task-2 to access that critical section, if Task-1 is worried about this it has to disable the interrupt before accessing the critical section.
+Lets say Task-1 locks the critical section by taking the semaphore , do you think a random Task-2 can able to access that critical section without 
+taking the semaphore?
+Yes. Yes of course, no one can stop Task-2 to access that critical section, if Task-1 is worried about this it has to disable the interrupt before 
+accessing the critical section.

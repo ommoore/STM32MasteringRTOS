@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <dirs>
+    <entry loc="C:\ST\STM32CubeIDE_1.4.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.jre.win64_2.0.0.202105032045" stamp="1636159970368"/>
     <entry loc="C:\ST\STM32CubeIDE_1.4.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.jre.win64_1.6.0.202102191308" stamp="1614883783614"/>
+    <entry loc="C:\ST\STM32CubeIDE_1.4.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.jre.win64_2.0.0.202105032045\jre" stamp="1636159967706"/>
 </dirs>

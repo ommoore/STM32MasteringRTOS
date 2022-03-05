@@ -1,7 +1,7 @@
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:008Queues_and_Timers,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:013Queue_Processing
+configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:001Tasks,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:002LED_Tasks,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:003LED_Block_Tasks,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:004LED_Periodic_Tasks,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:005LED_Task_Notify,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:006LED_Button_ISR,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:007Task_Priority,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:008Queues_and_Timers,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:009Binary_Semaphore_Tasks,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:010Counting_Semaphore_Tasks,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:011Mutex_Using_Binary_Semaphore,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:012MutexAPI,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:013Queue_Processing
 eclipse.preferences.version=1
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:001Tasks/activeLaunchMode=debug
 org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:001Tasks/activeLaunchTarget=null\:---
