@@ -5,7 +5,7 @@ Project workspace containing various course examples written for FreeRTOS enviro
 
 ## Directory Contents
 ```
-**EmbeddedCProg-CortexM3M4**
+**STM32MasteringRTOS**
 |
 └───RTOS Workspace 
 |   | - 001Tasks
